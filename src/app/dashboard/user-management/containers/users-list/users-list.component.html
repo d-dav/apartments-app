@@ -1,0 +1,63 @@
+<div class="users-container">
+  <div class="user-create">
+    <a [routerLink]="['/users/create']" mat-raised-button color="primary">Create user</a>
+  </div>
+
+  <div class="users-loading-shade" *ngIf="loading$ | async">
+    <mat-spinner diameter="70"></mat-spinner>
+  </div>
+
+  <div class="users-table-container mat-elevation-z8">
+
+    <table mat-table [dataSource]="data" class="users-table" matSort matSortActive="created" matSortDisableClear
+      matSortDirection="desc">
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let row">{{row.firstname}} {{row.lastname}}</td>
+      </ng-container>
+
+      <!-- Email Column -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>Email</th>
+        <td mat-cell *matCellDef="let row">{{row.email}}</td>
+      </ng-container>
+
+      <!-- Role Column -->
+      <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef>Role</th>
+        <td mat-cell *matCellDef="let row">{{row.role}}</td>
+      </ng-container>
+
+      <!-- Verified Column -->
+      <ng-container matColumnDef="verified">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let row">
+          <mat-icon class="verified" *ngIf="row.verified; else unverifiedUser">check</mat-icon>
+          <ng-template #unverifiedUser>
+            <mat-icon class="unverified">close</mat-icon>
+          </ng-template>
+        </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let row">
+          <div class="action-buttons">
+            <a mat-icon-button aria-label="edit" href="/users/edit/{{ row._id }}"
+              [routerLink]="['/users/edit', row._id]">
+              <mat-icon>edit</mat-icon>
+            </a>
+            <button mat-icon-button aria-label="delete" (click)="onDelete(row)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>

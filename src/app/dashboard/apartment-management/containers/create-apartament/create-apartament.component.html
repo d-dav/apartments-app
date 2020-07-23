@@ -1,0 +1,82 @@
+<div class="create-apartment-page">
+  <form [formGroup]="apartmentForm">
+    <mat-card class="create-apartment-card">
+      <mat-card-header>
+        <mat-card-title>{{ isEdit ? 'Edit' : 'Create'}} Apartment</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+
+        <div class="form-columns">
+          <div>
+            <div class="form-wrapper">
+              <mat-form-field appearance="outline" class="full-width-input">
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="name">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width-input">
+                <mat-label>Status</mat-label>
+                <mat-select formControlName="status">
+                  <mat-option [value]="item.value" *ngFor="let item of apartmentStatuses | keyvalue">{{ item.value }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="form-wrapper">
+              <mat-form-field appearance="outline" class="full-width-input">
+                <mat-label>Description</mat-label>
+                <textarea matInput formControlName="description"></textarea>
+              </mat-form-field>
+            </div>
+
+            <div class="form-wrapper">
+              <mat-form-field appearance="outline">
+                <mat-label>Floor Area Size</mat-label>
+                <input type="number" matInput formControlName="floorAreaSize">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Price Per Month</mat-label>
+                <input type="number" matInput formControlName="pricePerMonth">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Number Of Rooms</mat-label>
+                <input type="number" matInput formControlName="numberOfRooms">
+              </mat-form-field>
+            </div>
+
+            <div class="form-wrapper">
+              <mat-form-field appearance="outline">
+                <mat-label>Address</mat-label>
+                <input #addressInput matInput formControlName="address">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Latitude</mat-label>
+                <input matInput formControlName="latitude">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Longitude</mat-label>
+                <input matInput formControlName="longitude">
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="form-wrapper">
+            <google-map></google-map>
+          </div>
+        </div>
+
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button (click)="onSubmit()" color="primary"
+          [disabled]="loading$ | async">{{ isEdit ? 'Edit' : 'Create' }}</button>
+        <a mat-raised-button href="/apartments" [routerLink]="['/apartments']" color="accident"
+          [disabled]="loading$ | async">Cancel</a>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>

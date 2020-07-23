@@ -1,0 +1,26 @@
+.sidebar-links {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-decoration: none;
+  color: #fff;
+
+  .mat-icon {
+    margin-right: 10px;
+  }
+
+  &.active {
+    background: rgba(233, 30, 99, .15);
+    color: #f492b4;
+
+    &:hover {
+      background: rgba(233, 30, 99, .3);
+    }
+
+    .mat-icon {
+      color: #f492b4;
+    }
+  }
+}

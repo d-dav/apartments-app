@@ -1,0 +1,101 @@
+<div class="apartments-container">
+  <div class="apartment-create" *ngIf="user.role !== userRoles.client">
+    <a [routerLink]="['/apartments/create']" mat-raised-button color="primary">Create apartment</a>
+  </div>
+
+  <div class="apartments-loading-shade" *ngIf="loading$ | async">
+    <mat-spinner diameter="70"></mat-spinner>
+  </div>
+
+  <div class="apartments-table-container mat-elevation-z8">
+
+    <table mat-table [dataSource]="data" class="apartments-table" matSort matSortActive="created" matSortDisableClear
+      matSortDirection="desc">
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let row">{{row.name}}</td>
+      </ng-container>
+
+      <!-- Size Column -->
+      <ng-container matColumnDef="floorAreaSize">
+        <th mat-header-cell *matHeaderCellDef>Size (Sq Ft)</th>
+        <td mat-cell *matCellDef="let row">{{row.floorAreaSize}}</td>
+      </ng-container>
+
+      <!-- Price Column -->
+      <ng-container matColumnDef="pricePerMonth">
+        <th mat-header-cell *matHeaderCellDef>Price ($/month)</th>
+        <td mat-cell *matCellDef="let row">{{row.pricePerMonth}}</td>
+      </ng-container>
+
+      <!-- Rooms Column -->
+      <ng-container matColumnDef="numberOfRooms">
+        <th mat-header-cell *matHeaderCellDef>Number of Rooms</th>
+        <td mat-cell *matCellDef="let row">{{row.numberOfRooms}}</td>
+      </ng-container>
+
+      <!-- Latitude Column -->
+      <ng-container matColumnDef="latitude">
+        <th mat-header-cell *matHeaderCellDef>Latitude</th>
+        <td mat-cell *matCellDef="let row">{{row.latitude}}</td>
+      </ng-container>
+
+      <!-- Longitude Column -->
+      <ng-container matColumnDef="longitude">
+        <th mat-header-cell *matHeaderCellDef>Longitude</th>
+        <td mat-cell *matCellDef="let row">{{row.longitude}}</td>
+      </ng-container>
+
+      <!-- Relator Column -->
+      <ng-container matColumnDef="realtor">
+        <th mat-header-cell *matHeaderCellDef>Realtor Name</th>
+        <td mat-cell *matCellDef="let row">{{row.realtor?.firstname}}</td>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let row">
+          <mat-icon class="available" *ngIf="row.status === apartmentStatuses.available; else statusRented">lock_open
+          </mat-icon>
+          <ng-template #statusRented>
+            <mat-icon class="rented">lock</mat-icon>
+          </ng-template>
+        </td>
+      </ng-container>
+
+      <!-- Relator Column -->
+      <ng-container matColumnDef="created">
+        <th mat-header-cell *matHeaderCellDef>Date Created</th>
+        <td mat-cell *matCellDef="let row">{{row.created | date}}</td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let row">
+          <div
+            *ngIf="(user.role !== userRoles.realtor || (user.role === userRoles.realtor && row.realtor?._id === user._id))"
+            class="action-buttons">
+            <button mat-icon-button aria-label="view" (click)="onView(row)">
+              <mat-icon>visibility</mat-icon>
+            </button>
+            <ng-container *ngIf="user.role !== userRoles.client">
+              <a mat-icon-button aria-label="edit" href="/apartments/edit/{{ row._id }}"
+                [routerLink]="['/apartments/edit', row._id]">
+                <mat-icon>edit</mat-icon>
+              </a>
+              <button mat-icon-button aria-label="delete" (click)="onDelete(row)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </ng-container>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>

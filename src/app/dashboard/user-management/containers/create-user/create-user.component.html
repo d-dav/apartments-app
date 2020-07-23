@@ -1,0 +1,76 @@
+<div class="create-user-page">
+  <form [formGroup]="userForm">
+    <mat-card class="create-user-card">
+      <mat-card-header>
+        <mat-card-title>{{ isEdit ? 'Edit' : 'Create'}} User</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+
+        <div class="form-wrapper">
+          <mat-form-field appearance="outline" class="full-width-input">
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="firstname">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width-input">
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="lastname">
+          </mat-form-field>
+        </div>
+
+        <div class="form-wrapper">
+          <mat-form-field appearance="outline" class="full-width-input">
+            <mat-label>Password</mat-label>
+            <input type="password" matInput formControlName="password">
+            <mat-error *ngIf="userForm.get('password').touched && userForm.get('password').hasError('pattern')">
+              At least 8 letters and numbers
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width-input">
+            <mat-label>Confirm Password</mat-label>
+            <input type="password" matInput formControlName="confirmPassword" [errorStateMatcher]="passwordMatcher">
+            <mat-error *ngIf="userForm.get('confirmPassword').touched && userForm.hasError('differentPasswords')">
+              Passwords do not match
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-wrapper">
+          <mat-form-field appearance="outline" class="full-width-input">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email">
+          </mat-form-field>
+        </div>
+
+        <div class="form-wrapper">
+          <mat-form-field appearance="outline" class="full-width-input">
+            <mat-label>Role</mat-label>
+            <mat-select formControlName="role">
+              <ng-container *ngFor="let item of userRoles | keyvalue">
+                <mat-option *ngIf="item.value !== userRoles.admin" [value]="item.value">{{ item.key }}</mat-option>
+              </ng-container>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="form-wrapper">
+          <mat-form-field appearance="outline" class="full-width-input">
+            <mat-label>Verified</mat-label>
+            <mat-select formControlName="verified">
+              <mat-option [value]="true">Yes</mat-option>
+              <mat-option [value]="false">No</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button (click)="onSubmit()" color="primary"
+          [disabled]="loading$ | async">{{ isEdit ? 'Edit' : 'Create' }}</button>
+        <a mat-raised-button href="/users" [routerLink]="['/users']" color="accident"
+          [disabled]="loading$ | async">Cancel</a>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>

@@ -1,0 +1,11 @@
+<app-header></app-header>
+
+<mat-drawer-container class="dashboard-container" autosize>
+  <mat-drawer [opened]="true" class="dashboard-sidenav" mode="side">
+    <app-sidebar></app-sidebar>
+  </mat-drawer>
+
+  <div class="page-content">
+    <router-outlet></router-outlet>
+  </div>
+</mat-drawer-container>

@@ -1,0 +1,20 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Apartment Rentals</span>
+    <div class="header-spacer"></div>
+    <button class="user-menu" *ngIf="user" mat-button [matMenuTriggerFor]="beforeMenu">
+      <div class="user-profile">
+        <div class="user-avatar"></div>
+        <span>{{ user.firstname }} {{ user.lastname }}</span>
+      </div>
+    </button>
+    <mat-menu #beforeMenu="matMenu" xPosition="before">
+      <button mat-menu-item (click)="logout()">
+        <div class="user-menu-item">
+          <mat-icon>power_settings_new</mat-icon>
+          <span>Logout</span>
+        </div>
+      </button>
+    </mat-menu>
+  </mat-toolbar-row>
+</mat-toolbar>
